@@ -1,0 +1,90 @@
+Script started on Mon 20 Oct 2014 06:43:07 PM PDT
+]0;liniarc@thomas-VirtualBox: ~/Desktop/Assignments/rshell/srcliniarc@thomas-VirtualBox:~/Desktop/Assignments/rshell/src$ exit./exec
+liniarc@thomas-VirtualBox$ # bas    basic tests
+liniarc@thomas-VirtualBox$ ls
+debug  debug~  exec  exec.hi  exec.hs  exec.hs~  exec.o  exec.script  PlanB~
+liniarc@thomas-VirtualBox$ pwd
+/home/liniarc/Desktop/Assignments/rshell/src
+liniarc@thomas-VirtualBox$ echo 10 
+1
+liniarc@thomas-VirtualBox$ ech a    o a b c d
+a b c d
+liniarc@thomas-VirtualBox$ echo 123; echo abc
+123
+abc
+liniarc@thomas-VirtualBox$ echo 1 2 3 4 5 6 7 8 9 10 11 12        0 1 2 3 4 5 6 7 8 9 0 12    2 3 4 5 6 7 8 9 0
+1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0
+liniarc@thomas-VirtualBox$ echo LongArgument123123123         1234567890123456789012345678901234567890
+LongArgument1234567890123456789012345678901234567890
+liniarc@thomas-VirtualBox$ fakeCmd
+liniarc@thomas-VirtualBox$ ls fakeArgument
+ls: cannot access fakeArgument: No such file or directory
+liniarc@thomas-VirtualBox$ 
+liniarc@thomas-VirtualBox$ #Syntax tests
+liniarc@thomas-VirtualBox$  ls
+debug  debug~  exec  exec.hi  exec.hs  exec.hs~  exec.o  exec.script  PlanB~
+liniarc@thomas-VirtualBox$ ls  ; ls
+debug  debug~  exec  exec.hi  exec.hs  exec.hs~  exec.o  exec.script  PlanB~
+debug  debug~  exec  exec.hi  exec.hs  exec.hs~  exec.o  exec.script  PlanB~
+liniarc@thomas-VirtualBox$ echo;ls;echo
+
+debug  debug~  exec  exec.hi  exec.hs  exec.hs~  exec.o  exec.script  PlanB~
+
+liniarc@thomas-VirtualBox$ ls||pwd||ls
+debug  debug~  exec  exec.hi  exec.hs  exec.hs~  exec.o  exec.script  PlanB~
+liniarc@thomas-VirtualBox$ pwd;echo     12;ls   ;   ls;          ;ls    -a;pwd;
+/home/liniarc/Desktop/Assignments/rshell/src
+12
+debug  debug~  exec  exec.hi  exec.hs  exec.hs~  exec.o  exec.script  PlanB~
+.   debug   exec     exec.hs   exec.o	    PlanB~
+..  debug~  exec.hi  exec.hs~  exec.script
+/home/liniarc/Desktop/Assignments/rshell/src
+liniarc@thomas-VirtualBox$             ls       ;         ;    pwd    ;    ; echo     echo     spaces
+debug  debug~  exec  exec.hi  exec.hs  exec.hs~  exec.o  exec.script  PlanB~
+/home/liniarc/Desktop/Assignments/rshell/src
+spaces
+liniarc@thomas-VirtualBox$ ;;;;;;;   
+liniarc@thomas-VirtualBox$ echo semicolon              ;;;; echo semicolons;;;;
+semicolons
+liniarc@thomas-VirtualBox$ 
+liniarc@thomas-VirtualBox$ #Coment Tests         ment Tests
+liniarc@thomas-VirtualBox$ #pwd
+liniarc@thomas-VirtualBox$ ls #a -a
+debug  debug~  exec  exec.hi  exec.hs  exec.hs~  exec.o  exec.script  PlanB~
+liniarc@thomas-VirtualBox$ echo 1 #TEST
+1
+liniarc@thomas-VirtualBox$ echo 2#;   #; echo TEST
+2
+liniarc@thomas-VirtualBox$ echo3  3#TEST
+3
+liniarc@thomas-VirtualBox$ echo 5 4;#echo Test
+4
+liniarc@thomas-VirtualBox$ echo 5 && echo 6 #echo    && echo TEST
+5
+6
+liniarc@thomas-VirtualBox$ echo ^^^   ####Test   EST
+
+liniarc@thomas-VirtualBox$ echo#Test   EST
+
+liniarc@thomas-VirtualBox$ 
+liniarc@thomas-VirtualBox$ #Connector Tests
+liniarc@thomas-VirtualBox$ echo 1; echo 2; echo 4 3
+1
+2
+3
+liniarc@thomas-VirtualBox$ echo 4 && echo 5
+4
+5
+liniarc@thomas-VirtualBox$ echo    fakeCMD  md && echo TEST
+liniarc@thomas-VirtualBox$ ls fakeARG  rg ^^  %%  %% echoTEST             &&echo     eceho TE      ho TEST
+ls: cannot access fakeArg: No such file or directory
+liniarc@thomas-VirtualBox$ echo 6 || echo TEST
+6
+liniarc@thomas-VirtualBox$ echo    fakeCMD || c echo 6 7
+7
+liniarc@thomas-VirtualBox$ ls fakeARG  rg  R || eceho   ho 8
+ls: cannot access fakeAR: No such file or directory
+8
+liniarc@thomas-VirtualBox$ exit; echo TEST
+]0;liniarc@thomas-VirtualBox: ~/Desktop/Assignments/rshell/srcliniarc@thomas-VirtualBox:~/Desktop/Assignments/rshell/src$ exit
+Script done on Mon 20 Oct 2014 06:51:07 PM PDT
