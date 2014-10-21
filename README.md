@@ -5,10 +5,12 @@ Recreate command shell for CS100 assignment in Haskell
 
 The shell is capable of taking in a command line and executing it similarlly to how it'd be executed in the Bash shell
 
+### Running the file
 
-### bugs
+
+### Bugs
 Currently treats quotes as normal characters
-e.g. `echo "four    spaces"` will output `"four spaces"` instead of `four    spaces`
+e.g. `echo "four&nbsp;&nbsp;&nbsp;&nbsp;spaces"` will output `"four spaces"` instead of `four&nbsp;&nbsp;&nbsp;spaces`
 
 Does not support piping, control characters, assignment operators, etc.
 
