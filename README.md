@@ -1,12 +1,20 @@
 rshell
 ======
 
-Recreate command shell for CS100 assignment in Haskell
+Project source can be downloaded from https://github.com/Liniarc/rshell.git
 
-The shell is capable of taking in a command line and executing it similarlly to how it'd be executed in the Bash shell
+
+###Author & Contributor List
+Thomas Liu
+
+###Synopsis
+
+Recreate command shell for CS100 assignment in Haskell 
+
+The shell is capable of taking in a command line and executing it similarlly to how it'd be executed in the Bash shell. 
 
 ### Running the file
-
+In order to run this program, you need to have the ghc compiler.
 
 ### Bugs
 Currently treats quotes as normal characters
@@ -27,7 +35,7 @@ Parenthesis are not supported of logical operators (or in general)
 
 cd does not work
 
-I think the code runs each execution command twice, once to get the output, once for the exitCode. This is not ideal
+Will not work if in script mode
 
 ### Todos
 Currently the shell runs via giving rawSystem the commands. Use foriegn imports or process and forking instead
