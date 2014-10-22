@@ -9,9 +9,12 @@ import System.Process
 import System.Posix.Process
 
 main = do
-    getLoginName >>= putStr
-    putStr "@"
-    getHostName >>= putStr
+    printExtra <- hIsTerminalDevice stdin
+    if printExtra
+        then do getLoginName >>= putStr
+                putStr "@"
+                getHostName >>= putStr
+        else return()
     putStr "$ "
     hFlush stdout
     cmd <- getLine
@@ -45,8 +48,9 @@ readCmd cmd = do
     if (exec == "exit")
         then exitSuccess
         else return()
-    (code, _, _) <- readProcessWithExitCode exec args "" 
-    rawSystem exec args
+    (code, out, err) <- readProcessWithExitCode exec args "" 
+    putStr out
+    hPutStr stderr err
     if (rest /= [] && conn /= "#" && checkNext code conn )
         then readCmd rest 
         else return()
