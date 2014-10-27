@@ -1,20 +1,39 @@
 import Text.ParserCombinators.Parsec
 import System.IO
-import Control.Applicative ((<*>), (<$>))
+import Control.Applicative ((<*))
 import Control.Monad
 import Data.Maybe
+import Foreign
+import Foreign.Ptr
+import Foreign.C.Types
+import Foreign.C.String
+import Foreign.Marshal.Array
+
+foreign import ccall "unistd.h fork"
+    c_fork :: IO CInt
+foreign import ccall "unistd.h execvp"
+    c_execvp :: CString -> Ptr CString -> IO CInt
+foreign import ccall "sys/wait.h wait"
+    c_wait :: Ptr Int -> IO CInt
 
 
 commandLine = endBy line eol
-line = sepBy cmd connect
+line = many cmd
 cmd = do
-    exec <- spaces >> many1 (noneOf " \0\n\r|&;")
-    args <- spaces >> sepBy (optionMaybe (many1 (noneOf " \0\n\r|&;"))) (many1 (char ' '))
-    return (exec, catMaybes args)
+    exec <- spaces >> word
+    args <- spaces >> sepBy (optionMaybe word) (many1 (char ' '))
+    conn <- optionMaybe connect
+    return (exec, catMaybes args, fromMaybe "" conn)
 
---exec = (noneOf " \0\n\r|&;")
+word = quotes <|> many1 (noneOf " \0\n\r|&;#")
 
---arg = many (noneOf " \0\n\r|&;")
+quotes =
+    do char '"'
+       content <- many (noneOf "\"")
+       char '"' <?> "endquote"
+       return content
+
+
 
 connect =   try (string "||")
         <|> try (string "&&")
@@ -26,18 +45,24 @@ eol =   try (string "\n\r")
     <|> string "\n"
     <|> string "\r"
     <|> string "\0"
-    <|> string "#"
+    <|> string "#" <* skipMany anyChar
     <?> "end of line"
-
---parseCmd :: String -> Either ParseError [[String]]
---parseCmd input = parse commandLine "Error" input
 
 main = do
     putStr "$ "
     hFlush stdout
     input <- getLine
-    case parse commandLine "(stdin)" (input ++ "\0") of
-        Left e -> do putStrLn "Error Parsing input:"
-                     print e
-        Right cmd -> mapM_ print cmd
-    main
+    pid <- c_fork
+    if pid == 0
+        then case parse commandLine "(stdin)" (input ++ "\0") of
+                  Left e -> do hPutStrLn stderr "Error Parsing input:"
+                               hPrint stderr e
+                  Right cmd -> do 
+                                --c_e <- newCString e
+                                --c_a <- map newCString (e:a)
+                                --print c_e
+                                --print c_a
+                                --c_execvp c_e c_a
+                                mapM_ print cmd
+        else main--c_wait 
+    
