@@ -1,5 +1,6 @@
 import Text.ParserCombinators.Parsec
 import System.IO
+import System.Exit
 import Control.Applicative ((<*))
 import Control.Monad
 import Data.Maybe
@@ -8,6 +9,8 @@ import Foreign.Ptr
 import Foreign.C.Types
 import Foreign.C.String
 import Foreign.Marshal.Array
+import Foreign.Marshal.Alloc
+import Foreign.Marshal.Utils
 
 foreign import ccall "unistd.h fork"
     c_fork :: IO CInt
@@ -35,9 +38,9 @@ quotes =
 
 
 
-connect =   try (string "||")
-        <|> try (string "&&")
-        <|> string ";"
+connect =   try (string "||") <* spaces
+        <|> try (string "&&") <* spaces
+        <|> string ";" <* spaces
         <?> "connector"
 
 eol =   try (string "\n\r")
@@ -52,17 +55,34 @@ main = do
     putStr "$ "
     hFlush stdout
     input <- getLine
+    parseInput input
+    main
+
+parseInput :: String -> IO ()
+parseInput input  = do
+    case parse commandLine "stdin" (input ++ "\0") of
+        Left e -> do
+            hPutStrLn stderr "Error Parsing Input: "
+            hPrint stderr e
+        Right cmd -> do
+            --hPrint stderr cmd
+            exec cmd
+
+exec :: [[(String,[String],String)]] -> IO ()
+exec [] = do hPrint stderr "unexpected connector"
+exec [[]] = return ()
+exec [(e,a,c):xs] = do
     pid <- c_fork
     if pid == 0
-        then case parse commandLine "(stdin)" (input ++ "\0") of
-                  Left e -> do hPutStrLn stderr "Error Parsing input:"
-                               hPrint stderr e
-                  Right cmd -> do 
-                                --c_e <- newCString e
-                                --c_a <- map newCString (e:a)
-                                --print c_e
-                                --print c_a
-                                --c_execvp c_e c_a
-                                mapM_ print cmd
-        else main--c_wait 
-    
+        then do
+            c_e <- newCString e
+            c_a <- newArray =<< (sequence $ map newCString (e:a))
+            err <- c_execvp c_e c_a
+            hPrint stderr "execvp error"
+            exitFailure 
+        else do
+            err <- c_wait =<< new 0
+            if err == 0
+                then do hPrint stderr "wait error"
+                else do exec [xs]
+       
