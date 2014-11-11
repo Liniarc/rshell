@@ -1,6 +1,7 @@
 import Text.ParserCombinators.Parsec
 import System.IO
-import System.Exit
+import System.Posix.User
+import Network.BSD
 import Control.Applicative ((<*))
 import Control.Monad
 import Data.Maybe
@@ -12,13 +13,16 @@ import Foreign.Marshal.Array
 import Foreign.Marshal.Alloc
 import Foreign.Marshal.Utils
 
+import Debug.Trace
+
 foreign import ccall "unistd.h fork"
     c_fork :: IO CInt
 foreign import ccall "unistd.h execvp"
     c_execvp :: CString -> Ptr CString -> IO CInt
 foreign import ccall "sys/wait.h wait"
     c_wait :: Ptr Int -> IO CInt
-
+foreign import ccall "stdlib.h exit"
+    c_exit :: CInt -> IO ()
 
 commandLine = endBy line eol
 line = many cmd
@@ -52,11 +56,21 @@ eol =   try (string "\n\r")
     <?> "end of line"
 
 main = do
-    putStr "$ "
-    hFlush stdout
+    printPrompt
     input <- getLine
     parseInput input
     main
+
+printPrompt :: IO ()
+printPrompt = do 
+    printExtra <- hIsTerminalDevice stdin
+    if printExtra
+        then do getLoginName >>= putStr
+                putStr "@"
+                getHostName >>= putStr
+        else return ()
+    putStr "$ "
+    hFlush stdout
 
 parseInput :: String -> IO ()
 parseInput input  = do
@@ -66,23 +80,30 @@ parseInput input  = do
             hPrint stderr e
         Right cmd -> do
             --hPrint stderr cmd
-            exec cmd
+            prepCmd cmd
 
-exec :: [[(String,[String],String)]] -> IO ()
-exec [] = do hPrint stderr "unexpected connector"
-exec [[]] = return ()
-exec [(e,a,c):xs] = do
+prepCmd :: [[(String,[String],String)]] -> IO ()
+prepCmd [] = do hPrint stderr "unexpected connector"
+prepCmd [[]] = return ()
+prepCmd [("exit",_,_):_] = do c_exit 0 
+prepCmd [(e,a,c):xs] = do
     pid <- c_fork
-    if pid == 0
-        then do
+    case pid of 
+        -1 -> do
+            hPrint stderr "fork error"
+            c_exit 1
+        0 -> do
             c_e <- newCString e
-            c_a <- newArray =<< (sequence $ map newCString (e:a))
+            c_a <- newArray0 nullPtr  =<< (sequence $ map newCString (e:a))
             err <- c_execvp c_e c_a
-            hPrint stderr "execvp error"
-            exitFailure 
-        else do
-            err <- c_wait =<< new 0
-            if err == 0
-                then do hPrint stderr "wait error"
-                else do exec [xs]
-       
+            hPrint stderr $ "execvp error: " ++ e 
+            c_exit 1 
+            --exitWith ( ExitFailure (-1) )
+        _ -> do
+            status <- new 0
+            err <- c_wait status
+            if err == -1 
+                then do 
+                    hPrint stderr "wait error"
+                    c_exit 1
+                else do prepCmd [xs]
