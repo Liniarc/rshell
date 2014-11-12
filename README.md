@@ -13,13 +13,13 @@ Recreate command shell for CS100 assignment in Haskell
 
 The shell is capable of taking in a command line and executing it similarlly to how it'd be executed in the Bash shell. 
 
+In addition, there is a clone of ls and cp which which emulates the bash built-in commands.
+
 ### Running the file
 In order to run this program, you need to have the ghc compiler.
 
 ### Bugs
-Currently treats quotes as normal characters
-e.g. `echo "four&nbsp;&nbsp;&nbsp;&nbsp;spaces"` will output `"four spaces"` instead of `four&nbsp;&nbsp;&nbsp;spaces`
-
+#####rshell
 Does not support piping, control characters, assignment operators, etc.
 
 Does not output errors if it is unable to find a command
@@ -37,14 +37,20 @@ cd does not work
 
 Will not work if in script mode
 
+#####ls
+
+ls will output uppercase files before lowercase files
+
+ls will not minimize column lengths and pad all files to the length of the longest file
+
+ls -l has set width of columns. If a cell is too long, it will throw off the entire row (i.e. a file with 100+ links to it)
+
+ls displays the files in order horizontally instead of vertically.
+
+ls assumes screen width of 80 rather than dynamically determining that
+
 ### Todos
-Currently the shell runs via giving rawSystem the commands. Use foriegn imports or process and forking instead
-
-Look into parsec for monadic parsing to simplify parsing commands
-
 Look into haddoc for haskell documentation
-
-Include custom support for the ls command (hw1)
 
 Include support for piping and I/O redirection (hw2)
 
