@@ -14,8 +14,12 @@ import System.Locale
 main = do
     args <- getArgs
     let f = getFlags $ filter isFlag args 
-    let path = "."
-    printAllFiles path f
+    let paths = filter (not.isFlag) args
+    if (paths == [])
+        then printAllFiles "." f
+        else do
+            let mult = f .|. if length paths == 2 then 8 else 0
+            mapM_ (`printAllFiles` mult) paths
 
 isFlag :: String -> Bool
 isFlag ('-':a:xs) = a /= '-'
@@ -29,12 +33,12 @@ getFlagValue :: Char -> Int
 getFlagValue f
     | f == 'a' = 1
     | f == 'l' = 2
-    | f == 'R' = 4
+    | f == 'R' = 12
     | otherwise = 0
 
 printAllFiles :: FilePath -> Int -> IO()
 printAllFiles p f = do
-    if (f .&. 4 /= 0)
+    if (f .&. 8 /= 0)
         then putStrLn (p ++ ":")
         else return ()
     strm <- openDirStream p
@@ -43,6 +47,7 @@ printAllFiles p f = do
         then printDetailList p (sort files)
         else printList files 80
     closeDirStream strm
+    if (f .&. 8 /= 0) then putStrLn "" else return ()
     if (f .&. 4 /= 0)
         then do
             recursivePrint p files f
@@ -55,7 +60,6 @@ recursivePrint p (x:xs) f = do
     status <- getFileStatus path
     if (isDirectory status && x /= "." && x /= "..")
         then do
-            putStrLn ""
             printAllFiles path f
             recursivePrint p xs f
         else do recursivePrint p xs f
