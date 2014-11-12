@@ -1,0 +1,147 @@
+Script started on Tue 11 Nov 2014 04:52:24 PM PST
+]0;liniarc@thomas-VirtualBox: ~/Desktop/Assignments/rshell/binliniarc@thomas-VirtualBox:~/Desktop/Assignments/rshell/bin$ ./ls
+Doc1       DocB       Test       TestFolder cp         ls         ls.script  
+rshell     
+]0;liniarc@thomas-VirtualBox: ~/Desktop/Assignments/rshell/binliniarc@thomas-VirtualBox:~/Desktop/Assignments/rshell/bin$ ./ls -a
+.          ..         Doc1       DocB       Test       TestFolder cp         
+ls         ls.script  rshell     
+]0;liniarc@thomas-VirtualBox: ~/Desktop/Assignments/rshell/binliniarc@thomas-VirtualBox:~/Desktop/Assignments/rshell/bin$ ./ls -l
+---x--x-wx 2  1000     1000     0          Nov 12 00:49 Doc1
+---x--x-wx 1  1000     1000     0          Nov 12 00:49 DocB
+---x--x-wx 1  1000     1000     0          Nov 12 00:49 Test
+d-------w- 2  1000     1000     4096       Nov 12 00:50 TestFolder
+--------w- 1  1000     1000     18953      Nov 12 00:48 cp
+--------w- 1  1000     1000     1662473    Nov 12 00:48 ls
+---x--x-wx 1  1000     1000     0          Nov 12 00:52 ls.script
+--------w- 1  1000     1000     2830485    Nov 12 00:48 rshell
+]0;liniarc@thomas-VirtualBox: ~/Desktop/Assignments/rshell/binliniarc@thomas-VirtualBox:~/Desktop/Assignments/rshell/bin$ ./ls -R
+.:
+Doc1       DocB       Test       TestFolder cp         ls         ls.script  
+rshell     
+
+./TestFolder:
+Doc! Doc1 DocB 
+
+]0;liniarc@thomas-VirtualBox: ~/Desktop/Assignments/rshell/binliniarc@thomas-VirtualBox:~/Desktop/Assignments/rshell/bin$ ./ls -al
+d-------w- 3  1000     1000     4096       Nov 12 00:52 .
+d-------w- 6  1000     1000     4096       Nov 12 00:48 ..
+---x--x-wx 2  1000     1000     0          Nov 12 00:49 Doc1
+---x--x-wx 1  1000     1000     0          Nov 12 00:49 DocB
+---x--x-wx 1  1000     1000     0          Nov 12 00:49 Test
+d-------w- 2  1000     1000     4096       Nov 12 00:50 TestFolder
+--------w- 1  1000     1000     18953      Nov 12 00:48 cp
+--------w- 1  1000     1000     1662473    Nov 12 00:48 ls
+---x--x-wx 1  1000     1000     0          Nov 12 00:52 ls.script
+--------w- 1  1000     1000     2830485    Nov 12 00:48 rshell
+]0;liniarc@thomas-VirtualBox: ~/Desktop/Assignments/rshell/binliniarc@thomas-VirtualBox:~/Desktop/Assignments/rshell/bin$ ./ls -a -R
+.:
+.          ..         Doc1       DocB       Test       TestFolder cp         
+ls         ls.script  rshell     
+
+./TestFolder:
+.    ..   Doc! Doc1 DocB 
+
+]0;liniarc@thomas-VirtualBox: ~/Desktop/Assignments/rshell/binliniarc@thomas-VirtualBox:~/Desktop/Assignments/rshell/bin$ ./ls -R   -l
+.:
+---x--x-wx 2  1000     1000     0          Nov 12 00:49 Doc1
+---x--x-wx 1  1000     1000     0          Nov 12 00:49 DocB
+---x--x-wx 1  1000     1000     0          Nov 12 00:49 Test
+d-------w- 2  1000     1000     4096       Nov 12 00:50 TestFolder
+--------w- 1  1000     1000     18953      Nov 12 00:48 cp
+--------w- 1  1000     1000     1662473    Nov 12 00:48 ls
+---x--x-wx 1  1000     1000     0          Nov 12 00:52 ls.script
+--------w- 1  1000     1000     2830485    Nov 12 00:48 rshell
+
+./TestFolder:
+---x--x-wx 1  1000     1000     0          Nov 12 00:49 Doc!
+---x--x-wx 2  1000     1000     0          Nov 12 00:49 Doc1
+---x--x-wx 1  1000     1000     0          Nov 12 00:49 DocB
+
+]0;liniarc@thomas-VirtualBox: ~/Desktop/Assignments/rshell/binliniarc@thomas-VirtualBox:~/Desktop/Assignments/rshell/bin$ ./ls -a    [Kl[K-lR
+.:
+d-------w- 3  1000     1000     4096       Nov 12 00:52 .
+d-------w- 6  1000     1000     4096       Nov 12 00:48 ..
+---x--x-wx 2  1000     1000     0          Nov 12 00:49 Doc1
+---x--x-wx 1  1000     1000     0          Nov 12 00:49 DocB
+---x--x-wx 1  1000     1000     0          Nov 12 00:49 Test
+d-------w- 2  1000     1000     4096       Nov 12 00:50 TestFolder
+--------w- 1  1000     1000     18953      Nov 12 00:48 cp
+--------w- 1  1000     1000     1662473    Nov 12 00:48 ls
+---x--x-wx 1  1000     1000     0          Nov 12 00:52 ls.script
+--------w- 1  1000     1000     2830485    Nov 12 00:48 rshell
+
+./TestFolder:
+d-------w- 2  1000     1000     4096       Nov 12 00:50 .
+d-------w- 3  1000     1000     4096       Nov 12 00:52 ..
+---x--x-wx 1  1000     1000     0          Nov 12 00:49 Doc!
+---x--x-wx 2  1000     1000     0          Nov 12 00:49 Doc1
+---x--x-wx 1  1000     1000     0          Nov 12 00:49 DocB
+
+]0;liniarc@thomas-VirtualBox: ~/Desktop/Assignments/rshell/binliniarc@thomas-VirtualBox:~/Desktop/Assignments/rshell/bin$ ./ls . ~
+.:
+Doc1       DocB       Test       TestFolder cp         ls         ls.script  
+rshell     
+
+/home/liniarc:
+Desktop          Documents        Downloads        Music            
+Pictures         Public           Templates        Videos           
+examples.desktop 
+
+]0;liniarc@thomas-VirtualBox: ~/Desktop/Assignments/rshell/binliniarc@thomas-VirtualBox:~/Desktop/Assignments/rshell/bin$ ./ls . -a ~~[K -l
+.:
+d-------w- 3  1000     1000     4096       Nov 12 00:52 .
+d-------w- 6  1000     1000     4096       Nov 12 00:48 ..
+---x--x-wx 2  1000     1000     0          Nov 12 00:49 Doc1
+---x--x-wx 1  1000     1000     0          Nov 12 00:49 DocB
+---x--x-wx 1  1000     1000     0          Nov 12 00:49 Test
+d-------w- 2  1000     1000     4096       Nov 12 00:50 TestFolder
+--------w- 1  1000     1000     18953      Nov 12 00:48 cp
+--------w- 1  1000     1000     1662473    Nov 12 00:48 ls
+---x--x-wx 1  1000     1000     4096       Nov 12 00:53 ls.script
+--------w- 1  1000     1000     2830485    Nov 12 00:48 rshell
+
+/home/liniarc:
+d----w--w- 22 1000     1000     4096       Nov 12 00:31 .
+d----w--w- 3  0        0        4096       Oct 16 03:48 ..
+---xrwxrwx 1  1000     1000     8326       Nov 11 23:28 .ICEauthority
+---xrwxrwx 1  1000     1000     62         Nov 11 23:28 .Xauthority
+---xrwxrwx 1  1000     1000     20495      Nov 12 00:48 .bash_history
+---x-wx-wx 1  1000     1000     220        Oct 16 03:48 .bash_logout
+---x-wx-wx 1  1000     1000     3637       Oct 16 03:48 .bashrc
+d---rwxrwx 20 1000     1000     4096       Nov 05 03:31 .cache
+d---rwxrwx 3  1000     1000     4096       Oct 16 04:00 .compiz
+d---rwxrwx 20 1000     1000     4096       Nov 05 03:31 .config
+d---rwxrwx 3  1000     1000     4096       Nov 05 03:33 .dbus
+d---rwxrwx 3  1000     1000     4096       Nov 11 23:28 .gconf
+d-------w- 2  1000     1000     4096       Oct 26 20:05 .ghc
+---x--x-wx 1  1000     1000     53         Nov 05 03:07 .gitconfig
+---x--x-wx 1  1000     1000     7          Nov 05 03:07 .gitconfig~
+d---rwxrwx 3  1000     1000     4096       Oct 30 00:50 .gnome2
+d---rwxrwx 2  1000     1000     4096       Oct 16 22:50 .gnome2_private
+d---rwxrwx 2  1000     1000     4096       Nov 05 03:55 .gnupg
+---x--x-wx 1  1000     1000     30         Oct 16 17:15 .inputrc
+d----w--w- 3  1000     1000     4096       Oct 16 03:58 .local
+d---rwxrwx 4  1000     1000     4096       Oct 16 04:27 .mozilla
+---x-wx-wx 1  1000     1000     675        Oct 16 03:48 .profile
+d---rwxrwx 2  1000     1000     4096       Oct 21 23:42 .ssh
+---x-wxrwx 1  1000     1000     5          Nov 11 23:28 .vboxclient-clipboard.pid
+---x-wxrwx 1  1000     1000     5          Nov 11 23:28 .vboxclient-display.pid
+---x-wxrwx 1  1000     1000     5          Nov 11 23:28 .vboxclient-draganddrop.pid
+---x-wxrwx 1  1000     1000     5          Nov 11 23:28 .vboxclient-seamless.pid
+---xrwxrwx 1  1000     1000     12664      Nov 12 00:31 .viminfo
+---x--x-wx 1  1000     1000     436        Nov 11 04:22 .vimrc
+---x--x-wx 1  1000     1000     1772       Oct 16 04:58 .vimrc~
+---xrwxrwx 1  1000     1000     198        Nov 11 23:28 .xsession-errors
+---xrwxrwx 1  1000     1000     198        Nov 06 04:24 .xsession-errors.old
+d----w--w- 4  1000     1000     4096       Oct 28 04:33 Desktop
+d----w--w- 2  1000     1000     4096       Oct 16 03:58 Documents
+d----w--w- 2  1000     1000     4096       Oct 16 03:58 Downloads
+d----w--w- 2  1000     1000     4096       Oct 16 03:58 Music
+d----w--w- 2  1000     1000     4096       Oct 16 03:58 Pictures
+d----w--w- 2  1000     1000     4096       Oct 16 03:58 Public
+d----w--w- 2  1000     1000     4096       Oct 16 03:58 Templates
+d----w--w- 2  1000     1000     4096       Oct 16 03:58 Videos
+---x-wx-wx 1  1000     1000     8980       Oct 16 03:48 examples.desktop
+
+]0;liniarc@thomas-VirtualBox: ~/Desktop/Assignments/rshell/binliniarc@thomas-VirtualBox:~/Desktop/Assignments/rshell/bin$ exit
+Script done on Tue 11 Nov 2014 04:55:27 PM PST
