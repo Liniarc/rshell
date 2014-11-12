@@ -25,14 +25,21 @@ int main(int argc, char ** argv) {
 		cerr << "Output already exists." << endl;
 		exit(1);
 	}
-	if ((argv[3]) && strcmp(argv[3], "-a") == 0)
+
+	bool flag = false;
+	for (int i =1; i<argc; i++) 
+		if (argv[i][0]=='-') 
+			for (int j=1; argv[i][j]!=0; j++) 
+				if (argv[i][j] == 'a')
+					flag = true;
+	if ((argv[3]) && flag)
 	{
 
 
 	// method 1
 	struct tms  tmsstart, tmsend;
-	clock_t     start, end;
-	if ((start = times(&tmsstart)) == -1)    /* starting values */
+	clock_t	 start, end;
+	if ((start = times(&tmsstart)) == -1)	/* starting values */
 		cout << "times error" << endl; 
 
 
@@ -64,7 +71,7 @@ int main(int argc, char ** argv) {
 					/clktck << endl;
 
 	// method 2
-	if ((start = times(&tmsstart)) == -1)    /* starting values */
+	if ((start = times(&tmsstart)) == -1)	/* starting values */
 		cout << "times error" << endl; 
 
 
@@ -112,8 +119,8 @@ int main(int argc, char ** argv) {
 	
 	// method 3
 	struct tms  tmsstart, tmsend;
-	clock_t     start, end;
-	if ((start = times(&tmsstart)) == -1)    /* starting values */
+	clock_t	 start, end;
+	if ((start = times(&tmsstart)) == -1)	/* starting values */
 		cout << "times error" << endl; 
 	
 
@@ -151,7 +158,7 @@ int main(int argc, char ** argv) {
 		if ((end = times(&tmsend)) == -1)
 		cout << "times error" << endl;
 
-	if (argv[3] && strcmp(argv[3], "-a") == 0) {
+	if (argv[3] && flag) {
 
 	static long clktck = 0;
 	if ((clktck = sysconf(_SC_CLK_TCK)) < 0)
