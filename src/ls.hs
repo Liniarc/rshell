@@ -107,10 +107,10 @@ getFileType s
     | isBlockDevice s = 'b'
     | isCharacterDevice s = 'c'
     | isNamedPipe s = 'p'
-    | isRegularFile s = '-'
     | isDirectory s = 'd'
     | isSymbolicLink s = 'l'
     | isSocket s = 's'
+    | isRegularFile s = '-'
     | otherwise = '?'
     
 padString :: Int -> String -> String
