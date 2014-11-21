@@ -1,0 +1,45 @@
+Script started on Thu 20 Nov 2014 07:20:43 PM PST
+]0;liniarc@thomas-VirtualBox: ~/Desktop/Assignments/rshell/srcliniarc@thomas-VirtualBox:~/Desktop/Assignments/rshell/src$ ./parsec 
+liniarc@thomas-VirtualBox$ ls
+cp.cpp	 exec.hs  ls.hi  ls.o	 parsec.hi  parsec.o
+exec.hi  exec.o   ls.hs  parsec  parsec.hs  piping.script
+liniarc@thomas-VirtualBox$ echo "Hello" > test
+liniarc@thomas-VirtualBox$ echo "World" >> test
+liniarc@thomas-VirtualBox$ cat <<  test
+Hello
+World
+liniarc@thomas-VirtualBox$ echo Hello World > test
+liniarc@thomas-VirtualBox$ cat   <   test
+Hello World
+liniarc@thomas-VirtualBox$ echo Hello | cat
+Hello
+liniarc@thomas-VirtualBox$ echo Hello | tr a-z A-Z
+HELLO
+liniarc@thomas-VirtualBox$ echo Hello | tr a-z A-Z > test
+liniarc@thomas-VirtualBox$ cat test
+HELLO
+liniarc@thomas-VirtualBox$ cat <<< Apples
+Apples
+liniarc@thomas-VirtualBox$ cat <<< dog > test
+liniarc@thomas-VirtualBox$ cat test
+dog
+liniarc@thomas-VirtualBox$ cat <<< "Hello World" | tr A-Z a-z | tee test | tr a-z A-z Z > test  2
+liniarc@thomas-VirtualBox$ cat test
+hello world
+liniarc@thomas-VirtualBox$ cat test2
+HELLO WORLD
+liniarc@thomas-VirtualBox$ rm test
+liniarc@thomas-VirtualBox$ rem  m T test2
+liniarc@thomas-VirtualBox$ cat     echo >>    hello >> test
+liniarc@thomas-VirtualBox$ cat test
+hello
+liniarc@thomas-VirtualBox$ echo hello >> test; cat test
+hello
+hello
+liniarc@thomas-VirtualBox$ echo goodbye > test; cat test | tr A-Z     a-z A-Z > test; cat < test
+GOODBYE
+liniarc@thomas-VirtualBox$ exit
+]0;liniarc@thomas-VirtualBox: ~/Desktop/Assignments/rshell/srcliniarc@thomas-VirtualBox:~/Desktop/Assignments/rshell/src$ exit
+exit
+
+Script done on Thu 20 Nov 2014 07:26:33 PM PST
