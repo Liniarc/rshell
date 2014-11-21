@@ -20,13 +20,6 @@ In order to run this program, you need to have the ghc compiler.
 
 ### Bugs
 #####rshell
-Does not support piping, control characters, assignment operators, etc.
-
-Does not output errors if it is unable to find a command
-
-Ignores "empty" commands.
-e.g. `;echo 5` will not give an error and simply print out `5`
-
 Short-circuit of `&&` and `||` will short-circuit all remaining commands even if remaining commands would normally be executed
 e.g. `true || echo 1; echo 2` will not run `echo 2`
 This is different from the Bash terminal would create sub operators such that the command would run as `(true || echo 1); echo 2` which would call `echo 2`
@@ -36,6 +29,14 @@ Parenthesis are not supported of logical operators (or in general)
 cd does not work
 
 Will not work if in script mode
+
+IO redirection of specific file descriptors do not work.
+i.e. `$ g++ main.cpp 2> errors` will not work
+
+Any additional strings between the first io message and next connector will be ignored.
+i.e. `$ cat < file AAAAA > file2 AAAAA` will ignore `AAAAA`
+
+Treating IO redirection as connectors is probably very bad practice
 
 #####ls
 
@@ -52,6 +53,5 @@ ls assumes screen width of 80 rather than dynamically determining that
 ### Todos
 Look into haddoc for haskell documentation
 
-Include support for piping and I/O redirection (hw2)
-
 Include support for finding commands, the cd command, and control characters (hw3)
+
