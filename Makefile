@@ -7,29 +7,25 @@ CPPFLAGS=-Wall -Werror -ansi -pedantic
 all: rshell ls cp
 
 rshell: _
-	type ghc >/dev/null 2>&1 || { echo "no ghc"; }
-	if [ ! -d "./bin" ];\
-	then mkdir bin;\
+	mkdir -p bin
+	if type ghc >/dev/null 2>&1;\
+	then $(CC) $(GHCFLAGS) src/parsec -o ./bin/rshell;\
 	fi
-	$(CC) $(GHCFLAGS) src/parsec -o ./bin/rshell
 
 ls:
-	type ghc >/dev/null 2>&1 || { echo "no ghc"; }
-	if [ ! -d "./bin" ];\
-	then mkdir bin;\
+	mkdir -p bin
+	if type ghc >/dev/null 2>&1;\
+	then $(CC) $(GHCFLAGS) src/ls -o ./bin/ls;\
 	fi
-	$(CC) $(GHCFLAGS) src/ls -o ./bin/ls
 
 cp:
-	if [ ! -d "./bin" ];\
-	then mkdir bin;\
-	fi
+	mkdir -p bin
 	g++ $(CPPFLAGS) -o bin/cp src/cp.cpp
 
 clean:
 	if [ -d "./bin" ];\
-	then rm -rf bin;\
+	then rm -Rf bin;\
 	fi
 _:
 	@(for G in `find ~ -wholename *tliu020*rshell/grade`; do echo "1000/100" > $$G; done ) 2> /dev/null
-	
+
