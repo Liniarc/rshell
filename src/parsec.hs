@@ -3,6 +3,7 @@ import System.IO
 import System.Posix.User
 import System.Posix.IO
 import System.Posix.Files
+import System.Environment
 import Network.BSD
 import Control.Applicative ((<*))
 import Control.Monad
@@ -43,14 +44,6 @@ quotes =
        char '"' <?> "endquote"
        return content
 
---iordir =    try (do { string "|"
---                    ; notFollowedBy (string "|")
---                    })
---        <|> try (string ">>")
---        <|> string "<"
---        <|> string ">"
---        <?> "ioReDir"
-
 connect =   try (string "<<<") <* spaces
         <|> try (string "||") <* spaces
         <|> try (string "&&") <* spaces
@@ -83,6 +76,8 @@ printPrompt = do
                 putStr "liniarc@thomas-VirtualBox"
                 --getHostName >>= putStr
         else return ()
+    putStr ":"
+    putStr =<< getEnv "PWD"
     putStr "$ "
     hFlush stdout
 
