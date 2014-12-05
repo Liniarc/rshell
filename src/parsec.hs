@@ -3,7 +3,10 @@ import System.IO
 import System.Posix.User
 import System.Posix.IO
 import System.Posix.Files
+import System.Posix.Signals
+import System.Posix.Types
 import System.Environment
+import System.Directory
 import Network.BSD
 import Control.Applicative ((<*))
 import Control.Monad
@@ -20,13 +23,17 @@ import GHC.IO.Handle
 import Debug.Trace
 
 foreign import ccall "unistd.h fork"
-    c_fork :: IO CInt
-foreign import ccall "unistd.h execvp"
-    c_execvp :: CString -> Ptr CString -> IO CInt
+    c_fork :: IO CPid
+foreign import ccall "unistd.h execv"
+    c_execv :: CString -> Ptr CString -> IO CInt
 foreign import ccall "sys/wait.h wait"
     c_wait :: Ptr Int -> IO CInt
 foreign import ccall "stdlib.h exit"
     c_exit :: CInt -> IO ()
+
+paths = endBy pathList eol
+pathList = sepBy path (char ':')
+path = many (noneOf ":\0")
 
 commandLine = endBy line eol
 line = many cmd
@@ -63,6 +70,7 @@ eol =   try (string "\n\r")
     <?> "end of line"
 
 main = do
+    installHandler keyboardSignal (Catch (do return())) Nothing
     printPrompt
     input <- getLine
     parseInput input
@@ -77,7 +85,8 @@ printPrompt = do
                 --getHostName >>= putStr
         else return ()
     putStr ":"
-    putStr =<< getEnv "PWD"
+    putStr =<< getCurrentDirectory
+    --putStr =<< getEnv "PWD"
     putStr "$ "
     hFlush stdout
 
@@ -142,9 +151,19 @@ prepCmd [(e,a,c):xs] i o = do
     nextCmd [xs] c stat
 
 execCmd :: String -> [String] -> Handle -> Handle -> IO Int
+execCmd "cd" (a:_) _ _ = do 
+    status <- doesDirectoryExist a
+    if (status)
+        then setCurrentDirectory a
+        else hPrint stderr "Directory not found"
+    return 0
+execCmd "cd" _ _ _ = do
+    setCurrentDirectory =<< getHomeDirectory
+    return 0
 execCmd e a i o = do
     pid <- c_fork
     checkFailure pid "fork error"
+    installHandler keyboardSignal (Catch (do signalProcess softwareTermination pid)) Nothing
     case pid of
         0 -> do
             if (i /= stdin)
@@ -155,16 +174,14 @@ execCmd e a i o = do
                 else return ()
             c_e <- newCString e
             c_a <- newArray0 nullPtr =<< (sequence $ map newCString (e:a))
-            err <- c_execvp c_e c_a
-            hPrint stderr $ "execvp error: " ++ e
-            c_exit 1
+            path <- getPaths
+            executePaths e path a
             return 0
         _ -> do
             status <- new 0
             err <- c_wait status
             checkFailure err "wait error"
             peek status 
-
 
 nextCmd :: [[(String, [String], String)]] -> String -> Int -> IO ()
 nextCmd c ";" _ = prepCmd c stdin stdout
@@ -173,8 +190,27 @@ nextCmd c "||" 0 = return ()
 nextCmd c "||" _ = prepCmd c stdin stdout
 nextCmd c _ _ = return ()
 
-checkFailure :: CInt -> String -> IO ()
+checkFailure :: (Integral a ) => a -> String -> IO ()
 checkFailure (-1) s = do
     hPrint stderr s
     c_exit 1
 checkFailure _ _ = return ()
+
+executePaths :: String -> [String] -> [String] -> IO ()
+executePaths exec [] args = checkFailure (-1) ("execv error: " ++ exec)
+executePaths exec (path:xs) args = do
+    c_e <- newCString (path ++ "/" ++  exec)
+    c_a <- newArray0 nullPtr =<< (sequence $ map newCString (exec:args))
+    err <- c_execv c_e c_a
+    executePaths exec xs args
+
+getPaths :: IO [String]
+getPaths = do
+    p <- getEnv "PATH"
+    case parse paths "path" (p ++ ":.\0") of
+        Left e -> do
+            hPutStrLn stderr "Error Parsing Input: "
+            hPutStrLn stderr $ lines (show e) !! 1
+            return []
+        Right cmd -> do
+            return $ concat cmd
