@@ -38,6 +38,10 @@ i.e. `$ cat < file AAAAA > file2 AAAAA` will ignore `AAAAA`
 
 Treating IO redirection as connectors is probably very bad practice
 
+rshell displays the full path rather than replaceing $HOME with ~
+
+running rshell from within rshell will crash when escaped with Ctrl + C
+
 #####ls
 
 ls will output uppercase files before lowercase files
@@ -52,6 +56,3 @@ ls assumes screen width of 80 rather than dynamically determining that
 
 ### Todos
 Look into haddoc for haskell documentation
-
-Include support for finding commands, the cd command, and control characters (hw3)
-
