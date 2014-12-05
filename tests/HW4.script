@@ -1,0 +1,15 @@
+Script started on Fri 05 Dec 2014 03:30:16 PM PST
+]0;liniarc@thomas-VirtualBox: ~/Desktop/Assignments/rshell/srcliniarc@thomas-VirtualBox:~/Desktop/Assignments/rshell/src$ ./parsec
+liniarc@thomas-VirtualBox:/home/liniarc/Desktop/Assignments/rshell/src$ ls
+cp.cpp	exec.hi  exec.hs  exec.o  HW4.script  ls.hi  ls.hs  ls.o  parsec  parsec.hi  parsec.hs	parsec.o
+liniarc@thomas-VirtualBox:/home/liniarc/Desktop/Assignments/rshell/src$ cd ..
+liniarc@thomas-VirtualBox:/home/liniarc/Desktop/Assignments/rshell$ cd src
+liniarc@thomas-VirtualBox:/home/liniarc/Desktop/Assignments/rshell/src$ cd
+liniarc@thomas-VirtualBox:/home/liniarc$ cd Desktop/Assignments/rshell/src
+liniarc@thomas-VirtualBox:/home/liniarc/Desktop/Assignments/rshell/src$ ^C
+Error Parsing Input: 
+unexpected "\NUL"
+liniarc@thomas-VirtualBox:/home/liniarc/Desktop/Assignments/rshell/src$ cat
+^Cliniarc@thomas-VirtualBox:/home/liniarc/Desktop/Assignments/rshell/src$ exit
+]0;liniarc@thomas-VirtualBox: ~/Desktop/Assignments/rshell/srcliniarc@thomas-VirtualBox:~/Desktop/Assignments/rshell/src$ exit
+Script done on Fri 05 Dec 2014 03:31:45 PM PST
