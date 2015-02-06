@@ -26,8 +26,6 @@ This is different from the Bash terminal would create sub operators such that th
 
 Parenthesis are not supported of logical operators (or in general)
 
-cd does not work
-
 Will not work if in script mode
 
 IO redirection of specific file descriptors do not work.
@@ -36,9 +34,7 @@ i.e. `$ g++ main.cpp 2> errors` will not work
 Any additional strings between the first io message and next connector will be ignored.
 i.e. `$ cat < file AAAAA > file2 AAAAA` will ignore `AAAAA`
 
-Treating IO redirection as connectors is probably very bad practice
-
-rshell displays the full path rather than replaceing $HOME with ~
+rshell displays the full path rather than replacing $HOME with ~
 
 running rshell from within rshell will crash when escaped with Ctrl + C
 
@@ -53,6 +49,3 @@ ls -l has set width of columns. If a cell is too long, it will throw off the ent
 ls displays the files in order horizontally instead of vertically.
 
 ls assumes screen width of 80 rather than dynamically determining that
-
-### Todos
-Look into haddoc for haskell documentation
